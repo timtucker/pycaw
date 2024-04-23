@@ -122,7 +122,7 @@ class MagicManager(COMObject):
             self.magic_session()
         """
         if cls.magic_activated:
-            warn = "cannot activate MagicManager. " "MagicManager is already active!"
+            warn = "cannot activate MagicManager. MagicManager is already active!"
             log.warning(warn)
             warnings.warn(warn)
             return

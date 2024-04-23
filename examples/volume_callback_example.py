@@ -25,7 +25,7 @@ def main():
     volume = interface.QueryInterface(IAudioEndpointVolume)
     callback = AudioEndpointVolumeCallback()
     volume.RegisterControlChangeNotify(callback)
-    for i in range(3):
+    for _ in range(3):
         volume.SetMute(0, None)
         volume.SetMute(1, None)
 
