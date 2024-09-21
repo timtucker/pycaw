@@ -1,6 +1,7 @@
-import warnings
-from typing import List, TypeVar, Generic
 from __future__ import annotations
+
+import warnings
+from typing import Generic, List, TypeVar
 
 import comtypes
 import psutil
@@ -22,7 +23,8 @@ from pycaw.constants import (
 )
 
 # Define a type variable that extends IUnknown
-COMInterface = TypeVar('COMInterface', bound='IUnknown')
+COMInterface = TypeVar("COMInterface", bound="IUnknown")
+
 
 class AudioDevice:
     """
@@ -65,7 +67,7 @@ class AudioDevice:
             state = self._dev.GetState()
             self._state = AudioDeviceState(state)
         return self._state
-    
+
     @staticmethod
     def getProperty(self, key):
         store = self._dev.OpenPropertyStore(STGM.STGM_READ.value)
@@ -76,10 +78,10 @@ class AudioDevice:
         for j in range(propCount):
             pk = store.GetAt(j)
             name = str(pk)
-            
+
             if name != key:
                 continue
-            
+
             try:
                 value = store.GetValue(pk)
                 v = value.GetValue()
@@ -103,11 +105,11 @@ class AudioDevice:
             propCount = store.GetCount()
             for j in range(propCount):
                 pk = store.GetAt(j)
-                
+
                 value = AudioDevice.getProperty(self, pk)
                 if value is None:
                     continue
-                
+
                 name = str(pk)
                 properties[name] = value
             self._properties = properties
@@ -355,11 +357,15 @@ class AudioUtilities:
         return sessions
 
     @staticmethod
-    def GetPlaybackSessions(sessionState: AudioDeviceState = None) -> List[AudioSession]:
+    def GetPlaybackSessions(
+        sessionState: AudioDeviceState = None,
+    ) -> List[AudioSession]:
         return AudioUtilities.GetSessions(EDataFlow.eRender.value, sessionState)
 
     @staticmethod
-    def GetRecordingSessions(sessionState: AudioDeviceState = None) -> List[AudioSession]:
+    def GetRecordingSessions(
+        sessionState: AudioDeviceState = None,
+    ) -> List[AudioSession]:
         return AudioUtilities.GetSessions(EDataFlow.eCapture.value, sessionState)
 
     @staticmethod
@@ -401,7 +407,9 @@ class AudioUtilities:
         return devices
 
     @staticmethod
-    def GetDevices(flow=EDataFlow.eAll.value, deviceState=DEVICE_STATE.ACTIVE.value) -> List[AudioDevice]:
+    def GetDevices(
+        flow=EDataFlow.eAll.value, deviceState=DEVICE_STATE.ACTIVE.value
+    ) -> List[AudioDevice]:
         """
         Get devices based on filteres for flow direction and device state.
         Default to returning active devices.
