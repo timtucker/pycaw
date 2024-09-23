@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import warnings
-from typing import Generic, List, TypeVar
+from typing import List, TypeVar
 
 import comtypes
 import psutil
